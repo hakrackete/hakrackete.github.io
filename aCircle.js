@@ -12,10 +12,10 @@ class myCircle {
   
     }
     drawCircle(ctx) {
-      ctx.beginPath()
+      ctx.beginPath();
       ctx.fillStyle = "rgb("+ this.changedColor +")";
-      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false)
-      ctx.fill()
+      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+      ctx.fill();
     }
   }
   

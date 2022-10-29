@@ -14,9 +14,9 @@ let max_radius = 15;
 let x = 0;
 let y = 0;
 let pixelval = 0;
-let biggest_possible_radius = 0;
+let biggest_possible_radius;
 
-let distance_to_origin = 0;
+let distance_to_origin;
 
 let color;
 let background_color;
@@ -113,7 +113,7 @@ function calculateCircles(iterations){
       biggest_possible_radius = outer_radius - distance_to_origin;
     }
     else{
-      biggest_possible_radius = 15;
+      biggest_possible_radius = max_radius;
     }
     
     if (!(biggest_possible_radius >= min_radius)){

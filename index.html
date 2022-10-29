@@ -5,68 +5,87 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>this is a test</h1>
-    <p> Use your own image</p>
-    <input type="radio" id="radioUpload" name="radioSubmitway" value="fileoption" checked
-            onchange="document.getElementById('imgfile').disabled = !(document.getElementById('imgfile').disabled);
-            document.getElementById('numberselector').disabled = !(document.getElementById('numberselector').disabled);
-            updateHiddenCanvas()"> 
-    <input type='file' id='imgfile' oninput='myloadImage();'/>   
-    <p>or pick a number</p>
-            <input type="radio" id="radioSelect" name="radioSubmitway" value="numberoption"  
-            onchange="document.getElementById('imgfile').disabled = !(document.getElementById('imgfile').disabled)
-            document.getElementById('numberselector').disabled = !(document.getElementById('numberselector').disabled);
-            updateHiddenCanvas()">
-            <input type="number" id="numberselector" name="numberselector" min="1" max="999" value="69" onchange="updateHiddenCanvas()" disabled>
-            <p></p>
-    <button type="button" onclick="redrawCircles()" id="generator" >Generate Image</button >
-    <button type="button" onclick="moreCircles()" id="additionalCircles" disabled>MOOOOOOOOOOOOORE</button >
-    <input type="color" id="background_colorpicker" oninput="newDrawloop()">
-    <input type="range" min="0" max="1000" id="density" oninput="newDrawloop()">
-    <canvas id="myCanvas" width="800" height="800"></canvas>
-    <canvas id="canvas" style="display:none" ></canvas>
-    
-    <p>radius for the smallest circle</p>
-            <input type="range" min="1" max="30" value="4" class="radiuspicker" name="min_radius" id="min_r" title="control the smallest radius" 
-                oninput="document.getElementById('spanminr').textContent = (document.getElementById('min_r').value + 'px');" onchange="redrawCircles();">
-            <span id="spanminr">4px</span>
-            
-    <p>radius for the biggest circle</p>
-    <input type="range" min="1" max="30" value="15" class="radiuspicker" name="max_radius" id="max_r" title="control the biggest radius" 
-        oninput="document.getElementById('spanmaxr').textContent = (document.getElementById('max_r').value + 'px')" onchange="redrawCircles();">
-    <span id="spanmaxr">15px</span>
-    
-    <button type="button" onclick="downloadCanvas()">Download</button>
-    <input type="range" min="0" max="100" value="5" id="shiftslider" name="shiftslider" title="randomize the RBG-values" 
-                oninput="document.getElementById('spancolorslider').textContent = (document.getElementById('shiftslider').value); apply_shifts()">
-    <span id="spancolorslider">5</span>
+<div class="container">
+    <div class="item">
+        <h1>this is a test</h1>
+        <p> Use your own image</p>
+        <input type="radio" id="radioUpload" name="radioSubmitway" value="fileoption" checked
+                onchange="document.getElementById('imgfile').disabled = !(document.getElementById('imgfile').disabled);
+                document.getElementById('numberselector').disabled = !(document.getElementById('numberselector').disabled);
+                updateHiddenCanvas()"> 
+        <input type='file' id='imgfile' oninput='myloadImage();'/>   
+        <p>or pick a number</p>
+                <input type="radio" id="radioSelect" name="radioSubmitway" value="numberoption"  
+                onchange="document.getElementById('imgfile').disabled = !(document.getElementById('imgfile').disabled)
+                document.getElementById('numberselector').disabled = !(document.getElementById('numberselector').disabled);
+                updateHiddenCanvas()">
+                <input type="number" id="numberselector" name="numberselector" min="1" max="999" value="69" onchange="updateHiddenCanvas()" disabled>
+                <p></p>
+        <button type="button" onclick="redrawCircles()" id="generator" >Generate Image</button >
+        <button type="button" onclick="moreCircles()" id="additionalCircles" disabled>MOOOOOOOOOOOOORE</button >
+            <br>
+        <label for="background_colorpicker">Background Color</label>
+        <input type="color" id="background_colorpicker" oninput="newDrawloop()">
+        <p>Density: </p>
+        <input type="range" min="0" max="1000" id="density" oninput="newDrawloop()">
+            <br>
+        
+        <p>radius for the smallest circle</p>
+                <input type="range" min="1" max="30" value="4" class="radiuspicker" name="min_radius" id="min_r" title="control the smallest radius" 
+                    oninput="document.getElementById('spanminr').textContent = (document.getElementById('min_r').value + 'px');" onchange="redrawCircles();">
+                <span id="spanminr">4px</span>
+                
+        <p>radius for the biggest circle</p>
+        <input type="range" min="1" max="30" value="15" class="radiuspicker" name="max_radius" id="max_r" title="control the biggest radius" 
+            oninput="document.getElementById('spanmaxr').textContent = (document.getElementById('max_r').value + 'px')" onchange="redrawCircles();">
+        <span id="spanmaxr">15px</span>
+        
+        
+            <br>
+        <label for="shiftslider">Colorshit</label>
+        <input type="range" min="0" max="100" value="5" id="shiftslider" name="shiftslider" title="randomize the RBG-values" 
+                    oninput="document.getElementById('spancolorslider').textContent = (document.getElementById('shiftslider').value) + '%'; apply_shifts()">
+        <span id="spancolorslider">5%</span>
+            <br>
 
-    <input type="range" min="0" max="200" value="0" step="2" id="lightschwiftslider" name="lightschwiftslider" title="randomize the brightness" 
-                oninput="document.getElementById('spanbrightness').textContent = ((document.getElementById('lightschwiftslider').value)/2) + '%';apply_shifts()"> 
-    <span id="spanbrightness">1x</span>
-    <br>
-    <input type="checkbox" name="use_blackwhite" id="use_blackwhite" title="use a Black-White template" onclick="assignColors()">
-    
-    <label for="use_blackwhite">use Black White</label>
-    <p></p>
-    <input type="range" min="0" max="100" value="25" id="gradientshiftslider" name="gradientshiftslider" title="select Gradientshift-range" 
-    oninput="document.getElementById('spangradient').textContent = (document.getElementById('gradientshiftslider').value) + '%'; apply_shifts()" >
-    <span id="spangradient" >25%</span>
-    <p></p>
-    <label for="first_colorslider">Black color:</label>
-    <input type="color" value="#89af23" class="colorslider" name="first_colorslider" id="first_colorslider" title="Color for the black part of your template"
-    onchange="assignColors()" >
-    <p></p>
-    <label for="second_colorslider">White color:</label> 
-    <input type="color" value="#db5e2e" class="colorslider" name="second_colorslider" id="second_colorslider" title="Color for the White part of your template"
-    onchange="assignColors()" >
-    <p></p>
-    <input type="checkbox" name="doCrop" id="doCrop" title="crops the Image in a circle form when checked" checked onchange="redrawCircles()">
-    <label for="doCrop" > Crop Image to a Circle</label>
+        <label for="lightschwiftslider">Brightness</label>
+        <input type="range" min="0" max="200" value="0" step="2" id="lightschwiftslider" name="lightschwiftslider" title="randomize the brightness" 
+                    oninput="document.getElementById('spanbrightness').textContent = ((document.getElementById('lightschwiftslider').value)/2) + '%';apply_shifts()"> 
+        <span id="spanbrightness">0%</span>
+            <br>
+        <label for="gradientshiftslider">Gradientshift</label>
+        <input type="range" min="0" max="100" value="25" id="gradientshiftslider" name="gradientshiftslider" title="select Gradientshift-range" 
+            oninput="document.getElementById('spangradient').textContent = (document.getElementById('gradientshiftslider').value) + '%'; apply_shifts()" >
+        <span id="spangradient" >25%</span>
+            <p></p>
+
+        <label for="use_blackwhite">use Black White</label>
+        <input type="checkbox" name="use_blackwhite" id="use_blackwhite" title="use a Black-White template" onclick="assignColors()">
+            <br>
+        <label for="first_colorslider">Black color:</label>
+        <input type="color" value="#89af23" class="colorslider" name="first_colorslider" id="first_colorslider" title="Color for the black part of your template"
+        onchange="assignColors()" >
+        <p></p>
+        <label for="second_colorslider">White color:</label> 
+        <input type="color" value="#db5e2e" class="colorslider" name="second_colorslider" id="second_colorslider" title="Color for the White part of your template"
+        onchange="assignColors()" >
+        <p></p>
+        <input type="checkbox" name="doCrop" id="doCrop" title="crops the Image in a circle form when checked" checked onchange="redrawCircles()">
+        <label for="doCrop" > Crop Image to a Circle</label>
+        <br>
+    </div>
+    <div class="item">
+        <canvas id="myCanvas" width="800" height="800"></canvas>
+        <canvas id="canvas" style="display:none" ></canvas>
+        <br>
+        <button type="button" onclick="downloadCanvas()">Download</button>
+    </div>
     <script src="p5.min.js"></script>
     <script src="scetch.js"></script>
     <script src="aCircle.js"></script>
+</div>
 </body>
 </html>

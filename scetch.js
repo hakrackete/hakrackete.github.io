@@ -13,7 +13,7 @@ let max_radius = 15;
 
 let x = 0;
 let y = 0;
-let pixelval = 0;
+let pixelval = 0;Ö
 let biggest_possible_radius;
 
 let distance_to_origin;

@@ -21,10 +21,10 @@ let distance_to_origin;
 let color;
 let background_color;
 
-let myCanvas = document.getElementById("myCanvas");
-myCanvas.width = width;
-myCanvas.height = height;
-let ctx = myCanvas.getContext("2d", { willReadFrequently: true })
+let displayCanvas = document.getElementById("displayCanvas");
+displayCanvas.width = width;
+displayCanvas.height = height;
+let ctx = displayCanvas.getContext("2d", { willReadFrequently: true })
 
 let buffer
 
@@ -39,13 +39,14 @@ function newDrawloop(){
   background_color = document.getElementById("background_colorpicker").value;
   density = document.getElementById("density").value;
   ctx.fillStyle = background_color;
-  ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+  ctx.fillRect(0, 0, displayCanvas.width, displayCanvas.height);
   
   // limits the number of drawn circles
   for (let i=0; i<(density * circlearray.length/1000); i++){
     let thing = circlearray[i];
     thing.drawCircle(ctx);
   }
+  mirrorCanvasToImage();
 }
 function setup() {
     buffer = createGraphics(width, height);
@@ -193,7 +194,7 @@ function myloadImage() {
   }
 
   function myimageLoaded() {
-      var canvas = document.getElementById("canvas")
+      var canvas = document.getElementById("referenceCanvas")
       canvas.width = img.width;
       canvas.height = img.height;
       var ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -210,7 +211,7 @@ function myloadImage() {
 }
 
 function customImage(){
-  let canvas = document.getElementById("canvas");
+  let canvas = document.getElementById("referenceCanvas");
   canvas.width = width;
   canvas.height = height;
   let ctx = canvas.getContext('2d', { willReadFrequently: true });
@@ -229,7 +230,7 @@ function customImage(){
 
 function assignColors(){
   // assigns every existing circle a corresponding color
-  let canvas = document.getElementById("canvas");
+  let canvas = document.getElementById("referenceCanvas");
   let ctx = canvas.getContext("2d");
   let pixel;
  
@@ -280,10 +281,10 @@ function updateHiddenCanvas(){
 }
 
 function downloadCanvas(){
-  let canvas = document.getElementById("myCanvas"); // defaultcanvas0 is the name created by the p5 canvas
+  let canvas = document.getElementById("displayCanvas"); 
   var link = document.createElement('a');
-  link.download = 'filename.png';
-  link.href = canvas.toDataURL(); // defaultcanvas0 is the name created by the p5 canvas
+  link.download = 'daskannmanändern.png';
+  link.href = canvas.toDataURL(); 
   link.click();
 }
 
@@ -314,3 +315,6 @@ function myShuffle(array) {
 // helper function for handling color inputs
 function hexToRgb(h){return['0x'+h[1]+h[2]|0,'0x'+h[3]+h[4]|0,'0x'+h[5]+h[6]|0]}
 
+function mirrorCanvasToImage(){
+  document.getElementById('target').src = displayCanvas.toDataURL();
+}

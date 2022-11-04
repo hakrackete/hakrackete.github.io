@@ -78,8 +78,9 @@
         <br>
     </div>
     <div class="item">
-        <canvas id="myCanvas" width="800" height="800"></canvas>
-        <canvas id="canvas" style="display:none" ></canvas>
+        <canvas id="displayCanvas" width="800" height="800" style="display:none;"></canvas>
+        <img id="target" height="800" width="800">
+        <canvas id="referenceCanvas" style="display:none" ></canvas>
         <br>
         <button type="button" onclick="downloadCanvas()">Download</button>
     </div>

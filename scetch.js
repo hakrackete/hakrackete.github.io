@@ -41,7 +41,7 @@ function newDrawloop(){
   background_color = document.getElementById("background_colorpicker").value;
   density = document.getElementById("density").value;
   radiusscaling = document.getElementById("radiusscaling").value/100;
-  console.log(radiusscaling);
+
   ctx.fillStyle = background_color;
   ctx.fillRect(0, 0, displayCanvas.width, displayCanvas.height);
   
@@ -235,7 +235,7 @@ function customImage(){
 function assignColors(){
   // assigns every existing circle a corresponding color
   let canvas = document.getElementById("referenceCanvas");
-  let ctx = canvas.getContext("2d");
+  let ctx = canvas.getContext("2d",{ willReadFrequently: true });
   let pixel;
  
   // scaling calculations

@@ -9,12 +9,14 @@ class myCircle {
       this.brightmod = 2*(Math.random()-0.5);
       this.changedColor = [120,120,120];
       this.isBlack = false;
+      
+
   
     }
-    drawCircle(ctx) {
+    drawCircle(ctx,scalingfactor) {
       ctx.beginPath();
       ctx.fillStyle = "rgb("+ this.changedColor +")";
-      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+      ctx.arc(this.x, this.y, this.radius * scalingfactor, 0, 2 * Math.PI , false);
       ctx.fill();
     }
   }

@@ -1,3 +1,4 @@
+
 let mainCanvas;
 let circlearray = [];
 let display_size = 800;
@@ -22,6 +23,7 @@ let color;
 let background_color;
 
 let displayCanvas = document.getElementById("displayCanvas");
+mirrorCanvasToImage(); // initialize the Image
 displayCanvas.width = width;
 displayCanvas.height = height;
 let ctx = displayCanvas.getContext("2d", { willReadFrequently: true })
@@ -38,13 +40,15 @@ Matrix[i] = []
 function newDrawloop(){
   background_color = document.getElementById("background_colorpicker").value;
   density = document.getElementById("density").value;
+  radiusscaling = document.getElementById("radiusscaling").value/100;
+  console.log(radiusscaling);
   ctx.fillStyle = background_color;
   ctx.fillRect(0, 0, displayCanvas.width, displayCanvas.height);
   
   // limits the number of drawn circles
   for (let i=0; i<(density * circlearray.length/1000); i++){
     let thing = circlearray[i];
-    thing.drawCircle(ctx);
+    thing.drawCircle(ctx,radiusscaling);
   }
   mirrorCanvasToImage();
 }

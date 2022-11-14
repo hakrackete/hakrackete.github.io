@@ -28,7 +28,7 @@
         <button type="button" onclick="moreCircles()" id="additionalCircles" disabled>MOOOOOOOOOOOOORE</button >
             <br>
         <label for="background_colorpicker">Background Color</label>
-        <input type="color" id="background_colorpicker" oninput="newDrawloop()">
+        <input type="color" id="background_colorpicker" onchange="newDrawloop()">
         <p>Density: </p>
         <input type="range" min="0" max="1000" id="density" oninput="newDrawloop()">
             <br>
@@ -75,6 +75,9 @@
         <p></p>
         <input type="checkbox" name="doCrop" id="doCrop" title="crops the Image in a circle form when checked" checked onchange="redrawCircles()">
         <label for="doCrop" > Crop Image to a Circle</label>
+
+        <p>space</p>
+        <input type="range" name="radiusscaling" id="radiusscaling" min="0" max="100" value="100" oninput="newDrawloop()">
         <br>
     </div>
     <div class="item">

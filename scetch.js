@@ -1,4 +1,20 @@
 
+if (window.Worker) {
+  console.log("hi");
+  const myWorker = new Worker('worker.js')
+  
+  testWorker.onclick = () => {
+    myWorker.postMessage(["hel"]);
+    console.log('Message posted to worker');
+    }
+
+  myWorker.onmessage = (e) => {
+    console.log("received" + e.data);
+  }
+    
+}
+
+
 let mainCanvas;
 let circlearray = [];
 let display_size = 800;

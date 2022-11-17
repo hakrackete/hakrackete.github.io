@@ -1,9 +1,5 @@
-onmessage = (e) => {
-    console.log('Message received from main script');
-    workerResult = 3
-    console.log('Posting message back to main script');
-    postMessage(workerResult);
-    workerResult +=1;
-    console.log('Posting message2 back to main script');
-    postMessage(workerResult);
+onmessage = (e) => { //verwendung von Offscreen Canvas, da hier DOM Elemente nicht funktioneiern im WorkerContext
+    for(let i = 0; i<3 ;i++){
+        postMessage(i)
+    }
   }

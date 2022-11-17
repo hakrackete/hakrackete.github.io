@@ -29,6 +29,10 @@ displayCanvas.height = height;
 let ctx = displayCanvas.getContext("2d", { willReadFrequently: true })
 
 let buffer
+let bufferCanvas = document.getElementById("bufferCanvas");
+bufferCanvas.width = width;
+bufferCanvas.height = height;
+let bufferctx = bufferCanvas.getContext("2d", { willReadFrequently: true });
 
 let Matrix = []
 for (let i = 0; i < (Math.floor(width/(max_radius)) + 2); i++){
@@ -52,14 +56,7 @@ function newDrawloop(){
   }
   mirrorCanvasToImage();
 }
-function setup() {
-    buffer = createGraphics(width, height);
-  }
-  
-  function draw() {
 
-    
-  }
 
   
 function moreCircles(){ // appends onto existing circlearray and Matrix
@@ -88,16 +85,15 @@ function redrawCircles(){ // creates a new circlearray and Matrix
 }
 
 function calculateCircles(iterations){
-  
-  buffer.fill(255, 204, 0);
-  buffer.noStroke();
-  
-  let backgroundcolor = [50,50,50,255]
-  
-  buffer.background(50);
+  let backgroundcolor = (0,0,0)
+  bufferctx.fillStyle = backgroundcolor;
+  bufferctx.fillRect(0,0,bufferCanvas.width,bufferCanvas.height);
 
-  for(circleObject of circlearray){
-    buffer.circle(circleObject.x, circleObject.y, circleObject.radius* 2);
+  bufferctx.fillStyle = (30,49,255);
+  for(circleObject of circlearray){ //draws already existing circles on the Buffer
+    bufferctx.beginPath();
+    bufferctx.arc(circleObject.x, circleObject.y, circleObject.radius, 0, 2 * Math.PI , false)
+    bufferctx.fill();
   }
   
 
@@ -107,9 +103,11 @@ function calculateCircles(iterations){
     y = Math.floor(Math.random() * height) + 1;
     
     
-    pixelval = buffer.get(x,y);
+    pixelval = bufferctx.getImageData(x,y,1,1).data;
+
     
-    if(!(pixelval[0] == backgroundcolor[0] && pixelval[1] == backgroundcolor[1] && pixelval[2] == backgroundcolor[2])){
+    if((pixelval[0] == backgroundcolor[0] && pixelval[1] == backgroundcolor[1] && pixelval[2] == backgroundcolor[2])){
+      
       continue;
     }
 
@@ -122,6 +120,7 @@ function calculateCircles(iterations){
     }
     
     if (!(biggest_possible_radius >= min_radius)){
+
       continue;
     }
 
@@ -159,7 +158,9 @@ function calculateCircles(iterations){
         }
       }
       circlearray.push(circleObject);
-      buffer.circle(circleObject.x, circleObject.y, circleObject.radius* 2);
+      bufferctx.beginPath();
+      bufferctx.arc(circleObject.x, circleObject.y, circleObject.radius, 0, 2 * Math.PI , false)
+      bufferctx.fill();
     }
 
   }

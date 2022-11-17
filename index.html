@@ -81,9 +81,15 @@
         <br>
     </div>
     <div class="item">
+        <!-- this canvas is for the final Picture, it will be mirrored to the img below -->
         <canvas id="displayCanvas" width="800" height="800" style="display:none;"></canvas>
         <img id="target" height="800" width="800">
-        <canvas id="referenceCanvas" style="display:none" ></canvas>
+
+        <!-- this Canvas is where the Uploaded Photo or created Number is displayed as a Reference  -->
+        <canvas id="referenceCanvas" style="display:none;" ></canvas> 
+
+        <!-- this Canvas is a buffercanvas where the Circles are calculated -->
+        <canvas id="bufferCanvas"style="display:none;"></canvas>
         <br>
         <button type="button" onclick="downloadCanvas()">Download</button>
     </div>

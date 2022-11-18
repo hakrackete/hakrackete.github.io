@@ -171,25 +171,25 @@ function myloadImage() {
   var input, file, fr, img;
 
   if (typeof window.FileReader !== 'function') {
-      mywrite("The file API isn't supported on this browser yet.");
+      alert("The file API isn't supported on this browser yet.");
       return;
   }
 
   input = document.getElementById('imgfile');
   if (!input) {
-      mywrite("Um, couldn't find the imgfile element.");
+      console.log("Um, couldn't find the imgfile element.");
   }
   else if (!input.files) {
-      mywrite("This browser doesn't seem to support the `files` property of file inputs.");
+    console.log("This browser doesn't seem to support the `files` property of file inputs.");
   }
   else if (!input.files[0]) {
-      mywrite("Please select a file before clicking 'Load'");
+    console.log("Please select a file before clicking 'Load'");
   }
-  else {
-      file = input.files[0];
-      fr = new FileReader();
-      fr.onload = mycreateImage;
-      fr.readAsDataURL(file);
+  else{
+    file = input.files[0];
+    fr = new FileReader();
+    fr.onload = mycreateImage;
+    fr.readAsDataURL(file);
   }
 
   function mycreateImage() {
@@ -205,12 +205,6 @@ function myloadImage() {
       var ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.drawImage(img,0,0);
       assignColors();
-  }
-
-  function mywrite(msg) {
-      var p = document.createElement('p');
-      p.innerHTML = msg;
-      document.body.appendChild(p);
   }
   document.getElementById("generator").disabled = false;
 }

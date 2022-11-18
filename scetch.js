@@ -7,7 +7,7 @@ if (window.Worker) {
     myWorker.postMessage(["hel"]);
     console.log('Message posted to worker');
     }
-
+    
   myWorker.onmessage = (e) => {
     console.log("received" + e.data);
   }

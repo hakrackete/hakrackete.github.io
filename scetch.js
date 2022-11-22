@@ -115,6 +115,7 @@ function calculateCircles(iterations){
     if(document.getElementById("doCrop").checked){
       biggest_possible_radius = outer_radius - distance_to_origin;
     }
+
     else{
       biggest_possible_radius = max_radius;
     }

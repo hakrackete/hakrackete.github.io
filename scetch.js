@@ -1,20 +1,3 @@
-
-if (window.Worker) {
-  console.log("hi");
-  const myWorker = new Worker('worker.js')
-  
-  testWorker.onclick = () => {
-    myWorker.postMessage(["hel"]);
-    console.log('Message posted to worker');
-    }
-    
-  myWorker.onmessage = (e) => {
-    console.log("received" + e.data);
-  }
-    
-}
-
-
 let mainCanvas;
 let circlearray = [];
 let display_size = 800;
@@ -23,7 +6,7 @@ let height = display_size;
 let outer_radius = display_size/2;
 let middle = [width/2, height/2];
 let max_iterations = 10000;
-let further_iterations =  50000;
+let further_iterations =  10000;
 
 let min_radius = 4;
 let max_radius = 15;
@@ -58,6 +41,7 @@ Matrix[i] = []
     }
 }
 function newDrawloop(){
+  
   background_color = document.getElementById("background_colorpicker").value;
   density = document.getElementById("density").value;
   radiusscaling = document.getElementById("radiusscaling").value/100;
@@ -71,6 +55,7 @@ function newDrawloop(){
     thing.drawCircle(ctx,radiusscaling);
   }
   mirrorCanvasToImage();
+  
 }
 
 
@@ -78,10 +63,11 @@ function newDrawloop(){
 function moreCircles(){ // appends onto existing circlearray and Matrix
   calculateCircles(further_iterations);
   assignColors();
-  newDrawloop();
+  
 }
 
 function redrawCircles(){ // creates a new circlearray and Matrix
+  let start = Date.now();
   min_radiustemp = document.getElementById("min_r").value;
   max_radiustemp = document.getElementById("max_r").value;
   min_radius = Math.min(min_radiustemp,max_radiustemp);
@@ -98,94 +84,37 @@ function redrawCircles(){ // creates a new circlearray and Matrix
   calculateCircles(max_iterations);
   assignColors();
   document.getElementById("additionalCircles").disabled = false;
+  let end = Date.now();
+  console.log(`blank Execution time: ${end - start} ms`);
+
 }
 
 function calculateCircles(iterations){
-  let backgroundcolor = (0,0,0)
-  bufferctx.fillStyle = backgroundcolor;
-  bufferctx.fillRect(0,0,bufferCanvas.width,bufferCanvas.height);
-
-  bufferctx.fillStyle = (30,49,255);
-  for(circleObject of circlearray){ //draws already existing circles on the Buffer
-    bufferctx.beginPath();
-    bufferctx.arc(circleObject.x, circleObject.y, circleObject.radius, 0, 2 * Math.PI , false)
-    bufferctx.fill();
-  }
-  
-
-  for(let progress = 0; progress < iterations; progress++){
-    
-    x = Math.floor(Math.random() * width) + 1;
-    y = Math.floor(Math.random() * height) + 1;
-    
-    
-    pixelval = bufferctx.getImageData(x,y,1,1).data;
-
-    
-    if((pixelval[0] == backgroundcolor[0] && pixelval[1] == backgroundcolor[1] && pixelval[2] == backgroundcolor[2])){
-      
-      continue;
-    }
-
-    distance_to_origin = Math.sqrt((middle[0]-x)**2 + (middle[1]-y)**2);
-    if(document.getElementById("doCrop").checked){
-      biggest_possible_radius = outer_radius - distance_to_origin;
-    }
-    else{
-      biggest_possible_radius = max_radius;
+  const circleWorker = new Worker('worker.js');
+  doCrop = document.getElementById("doCrop").checked;
+  circleWorker.postMessage([circlearray,Matrix, iterations,doCrop ,min_radius,max_radius,width,height, outer_radius, middle])
+  circleWorker.onmessage = (e) => {
+    circlearray = e.data[0];
+    for (let i = 0; i < circlearray.length;i++ ){
+      //console.log(typeof circlearray[i]);
+      circlearray[i] = new myCircle(circlearray[i].x,circlearray[i].y,circlearray[i].radius);
     }
     
-    if (!(biggest_possible_radius >= min_radius)){
-
-      continue;
-    }
-
-    let nearcells = new Set();
-    xCell = Math.floor(x/max_radius)
-    yCell = Math.floor(y/max_radius)
-
-    for (let h = -1; h <= 1; h++){
-      for (let k = -1; k <= 1; k++){
-        let chosen_set = Matrix[Math.max(0,(xCell + h))][Math.max(0,(yCell + k))];
-        nearcells = new Set([...nearcells,...chosen_set]);
-      }
-    }
-
-    for (singleCircle of nearcells){
-      current_radius = Math.sqrt((x - singleCircle.x)**2 + (y - singleCircle.y)**2) - singleCircle.radius;
-      if (current_radius < biggest_possible_radius){
-        biggest_possible_radius = current_radius;
-        if (biggest_possible_radius < min_radius){
-          break;
+    Matrix = e.data[1];
+    for (let i = 0; i < Matrix.length; i++){
+      for (let j = 0; j < Matrix[i].length; j++){
+        for(let k =0; k < Matrix[i][j].length; k++){
+          Matrix[i][j] = new myCircle(Matrix[i][j].x,Matrix[i][j].y,Matrix[i][j].radius);
         }
       }
     }
-
-    if (biggest_possible_radius >= min_radius){
-      biggest_possible_radius = Math.min(biggest_possible_radius, max_radius);
-
-      let circleObject = new myCircle(x,y,biggest_possible_radius);
     
-      for (let h = -1; h <= 1; h++){
-        for (let k = -1; k <= 1; k++){
-          
-          Matrix[Math.max(0,Math.floor((x + h * biggest_possible_radius) / max_radius))][Math.max(0,Math.floor((y + k * biggest_possible_radius) / max_radius))].add(circleObject);
-          
-        }
-      }
-      circlearray.push(circleObject);
-      bufferctx.beginPath();
-      bufferctx.arc(circleObject.x, circleObject.y, circleObject.radius, 0, 2 * Math.PI , false)
-      bufferctx.fill();
-    }
-
+    assignColors();
   }
-
 }
 
 function myloadImage() {
   var input, file, fr, img;
-
   if (typeof window.FileReader !== 'function') {
       mywrite("The file API isn't supported on this browser yet.");
       return;
@@ -293,12 +222,15 @@ function assignColors(){
 }
 
 function updateHiddenCanvas(){
+  let start1 = Date.now();
   if(document.getElementById("radioUpload").checked){
     myloadImage();
   }
   else{
     customImage();
   }
+  let end1 = Date.now();
+  console.log(`updatehiddencanvas Execution time: ${end1 - start1} ms`);
 }
 
 function downloadCanvas(){

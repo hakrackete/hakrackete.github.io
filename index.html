@@ -14,16 +14,12 @@
         <h1>this is a test</h1>
         <p> Use your own image</p>
         <input type="radio" id="radioUpload" name="radioSubmitway" value="fileoption" checked
-                onchange="document.getElementById('imgfile').disabled = !(document.getElementById('imgfile').disabled);
-                document.getElementById('numberselector').disabled = !(document.getElementById('numberselector').disabled);
-                updateHiddenCanvas()"> 
+                onchange="updateHiddenCanvas()"> 
         <input type='file' id='imgfile' oninput='myloadImage();'/>   
         <p>or pick a number</p>
                 <input type="radio" id="radioSelect" name="radioSubmitway" value="numberoption"  
-                onchange="document.getElementById('imgfile').disabled = !(document.getElementById('imgfile').disabled)
-                document.getElementById('numberselector').disabled = !(document.getElementById('numberselector').disabled);
-                updateHiddenCanvas()">
-                <input type="number" id="numberselector" name="numberselector" min="1" max="999" value="69" onchange="updateHiddenCanvas()" disabled>
+                onchange="updateHiddenCanvas()">
+                <input type="number" id="numberselector" name="numberselector" min="1" max="999" value="69" onchange="updateHiddenCanvas()" >
                 <p></p>
         <button type="button" onclick="redrawCircles()" id="generator" >Generate Image</button >
         <button type="button" onclick="moreCircles()" id="additionalCircles" disabled>MOOOOOOOOOOOOORE</button >

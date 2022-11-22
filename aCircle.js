@@ -10,8 +10,6 @@ class myCircle {
       this.changedColor = [120,120,120];
       this.isBlack = false;
       
-
-  
     }
     drawCircle(ctx,scalingfactor) {
       ctx.beginPath();

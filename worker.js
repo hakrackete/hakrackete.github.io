@@ -1,5 +1,7 @@
 // TODO: firefox radiobuttons 
 // nicht jedes object neu generieren, wenn es bereits geladen wurde
+// Zeitkonsum herausfinden
+
 
 importScripts('aCircle.js');
 
@@ -32,6 +34,7 @@ onmessage = (e) => { //verwendung von Offscreen Canvas, da hier DOM Elemente nic
   let y = 0;
   let biggest_possible_radius;
   let distance_to_origin;
+
 
   
     

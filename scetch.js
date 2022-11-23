@@ -96,18 +96,20 @@ function calculateCircles(iterations){
   circleWorker.onmessage = (e) => {
     circlearray = e.data[0];
     for (let i = 0; i < circlearray.length;i++ ){
-      //console.log(typeof circlearray[i]);
+
       circlearray[i] = new myCircle(circlearray[i].x,circlearray[i].y,circlearray[i].radius);
+      
     }
     
     Matrix = e.data[1];
-    for (let i = 0; i < Matrix.length; i++){
-      for (let j = 0; j < Matrix[i].length; j++){
-        for(let k =0; k < Matrix[i][j].length; k++){
-          Matrix[i][j] = new myCircle(Matrix[i][j].x,Matrix[i][j].y,Matrix[i][j].radius);
-        }
-      }
-    }
+    // for (let i = 0; i < Matrix.length; i++){
+    //   for (let j = 0; j < Matrix[i].length; j++){
+    //     for(let k =0; k < Matrix[i][j].size; k++){
+    //       Matrix[i][j] = new myCircle(Matrix[i][j].x,Matrix[i][j].y,Matrix[i][j].radius);
+          
+    //     }
+    //   }
+    // }
     
     assignColors();
   }

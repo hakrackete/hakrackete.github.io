@@ -15,7 +15,7 @@
         <p> Use your own image</p>
         <input type="radio" id="radioUpload" name="radioSubmitway" value="fileoption" checked
                 onchange="updateHiddenCanvas()"> 
-        <input type='file' id='imgfile' oninput='myloadImage();'/>   
+        <input type='file' id='imgfile' oninput='updateHiddenCanvas();'/>   
         <p>or pick a number</p>
                 <input type="radio" id="radioSelect" name="radioSubmitway" value="numberoption"  
                 onchange="updateHiddenCanvas()">

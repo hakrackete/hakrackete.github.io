@@ -4,15 +4,14 @@ class myCircle {
       this.y = y;
       this.radius = radius;
       this.color = [120,120,120,255];
-      this.gradmod = 2*(Math.random()-0.5);
+      this.gradmod = (Math.random());
       this.colormod = [2*(Math.random()-0.5),2*(Math.random()-0.5),2*(Math.random()-0.5)];
       this.brightmod = 2*(Math.random()-0.5);
       this.changedColor = [120,120,120];
       this.isBlack = false;
       
-
-  
     }
+
     drawCircle(ctx,scalingfactor) {
       ctx.beginPath();
       ctx.fillStyle = "rgb("+ this.changedColor +")";
